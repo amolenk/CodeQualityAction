@@ -18,6 +18,16 @@ dotnet publish src/CodeQualityScanner/CLI/CLI.csproj -c Release -r linux-x64 --s
 Update tags:
 
 ```
-git tag -a cc-cobertura-check/v1 -m "Initial version of CC check for Cobertura"
+git tag 1
 git push --tags
+```
+
+
+```
+   - name: Cyclomatic Complexity Check
+        uses: org/code-quality-actions/complexity-check@v1
+        with:
+          cobertura-file: './coverage/cobertura.xml'
+          threshold: '10.0'
+
 ```
