@@ -1,0 +1,16 @@
+name: Cyclomatic Complexity Check
+description: Check if the average cyclomatic complexity exceeds a threshold.
+inputs:
+  cobertura-file:
+    description: Path to the Cobertura XML file.
+    required: true
+  threshold:
+    description: Maximum allowed average cyclomatic complexity.
+    required: true
+    default: '10'
+runs:
+  using: "composite"
+  steps:
+    - name: Run Quality Scanner
+      run: ./publish/CodeQualityScanner ${{ inputs.cobertura-file }} ${{ inputs.threshold }}
+      shell: bash
