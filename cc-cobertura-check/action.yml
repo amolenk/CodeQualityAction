@@ -12,5 +12,5 @@ runs:
   using: "composite"
   steps:
     - name: Run Quality Scanner
-      run: ../publish/CodeQualityScanner ${{ inputs.cobertura-file }} ${{ inputs.threshold }}
+      run: ../publish/CLI ${{ inputs.cobertura-file }} ${{ inputs.threshold }}
       shell: bash
