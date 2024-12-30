@@ -11,36 +11,35 @@ if (args.Length == 0)
 var op = args[0];
 args = args.Skip(1).ToArray();
 
-if (op == "cc-cobertura")
+var succes = false;
+
+switch (op)
 {
-    if (args.Length != 2)
-    {
+    case "cc-cobertura" when args.Length != 2:
         Console.WriteLine("Usage: cc-cobertura <input-path> <threshold>");
-        return 1;
-    }
-    
-    var input = CoberturaInput.FromFile(args[0]);
-    var threshold = double.Parse(args[1]);
-
-    CyclomaticComplexityRule.Run(input, threshold);
-}
-else if (op == "cc-eslint")
-{
-    if (args.Length != 2)
+        break;
+    case "cc-cobertura":
     {
-        Console.WriteLine("Usage: cc-eslint <input-path> <threshold>");
-        return 1;
+        var input = CoberturaInput.FromFile(args[0]);
+        var threshold = double.Parse(args[1]);
+
+        succes = CyclomaticComplexityRule.Run(input, threshold);
+        break;
     }
-    
-    var input = ESLintInput.FromFile(args[0]);
-    var threshold = double.Parse(args[1]);
+    case "cc-eslint" when args.Length != 2:
+        Console.WriteLine("Usage: cc-eslint <input-path> <threshold>");
+        break;
+    case "cc-eslint":
+    {
+        var input = ESLintInput.FromFile(args[0]);
+        var threshold = double.Parse(args[1]);
 
-    CyclomaticComplexityRule.Run(input, threshold);
-}
-else
-{
-    Console.WriteLine($"Unknown operation: {op}");
-    return 1;
+        succes = CyclomaticComplexityRule.Run(input, threshold);
+        break;
+    }
+    default:
+        Console.WriteLine($"Unknown operation: {op}");
+        break;
 }
 
-return 0;
+return succes ? 0 : 1;
