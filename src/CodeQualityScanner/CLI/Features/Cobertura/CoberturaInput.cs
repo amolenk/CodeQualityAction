@@ -41,14 +41,15 @@ public class CoberturaInput : ICyclomaticComplexityProvider
 
     private string GetMethodFullName(XElement method)
     {
+        var package = GetPackage(method);
         var ns = GetNamespace(method);
         var localName = method.Attribute("name")?.Value;
         var signature = method.Attribute("signature")?.Value;
 
-        return $"{ns}.{localName}{signature}";
+        return $"{package}.{ns}.{localName}{signature}";
     }
 
-    private string GetNamespace(XElement element)
+    private static string GetNamespace(XElement element)
     {
         while (true)
         {
@@ -62,4 +63,20 @@ public class CoberturaInput : ICyclomaticComplexityProvider
             element = element.Parent;
         }
     }
+    
+    private static string GetPackage(XElement element)
+    {
+        while (true)
+        {
+            if (element.Name.LocalName == "package")
+            {
+                return element.Attribute("name")?.Value ?? string.Empty;
+            }
+
+            if (element.Parent is null) return string.Empty;
+            
+            element = element.Parent;
+        }
+    }
+
 }
