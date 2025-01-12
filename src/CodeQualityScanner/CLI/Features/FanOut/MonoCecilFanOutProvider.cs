@@ -20,8 +20,13 @@ public class MonoCecilFanOutProvider : IFanOutProvider
     {
         var result = new Dictionary<string, (int, int)>();
         
-        foreach (var assemblyPath in Directory.GetFiles(_binaryFolder, $"{_assemblyPrefix}*.dll"))
+        var assemblyPaths = Directory.GetFiles(_binaryFolder, $"{_assemblyPrefix}*.dll", SearchOption.AllDirectories)
+            .DistinctBy(Path.GetFileName);
+        
+        foreach (var assemblyPath in assemblyPaths)
         {
+            Console.WriteLine(assemblyPath);
+            
             GetFanOutCounts(assemblyPath, result);
         }
 
@@ -31,7 +36,8 @@ public class MonoCecilFanOutProvider : IFanOutProvider
     public void GetFanOutCounts(string assemblyPath, Dictionary<string, (int, int)> result)
     {
         var module = ModuleDefinition.ReadModule(assemblyPath);
-        foreach (var type in module.Types.Where(t => t.FullName.StartsWith(_assemblyPrefix)))
+        foreach (var type in module.Types.Where(t =>
+                     t.FullName.StartsWith(_assemblyPrefix) || t.Name == "Program"))
         {
             var fanOut = CalculateFanOut(type);
 

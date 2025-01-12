@@ -9,7 +9,7 @@ This method uses a Cobertura code coverage file to inspect cyclomatic complexity
 Call the action from your GitHub Actions workflow:
 ```yaml
 - name: Cyclomatic Complexity Check
-  uses: amolenk/CodeQualityAction/cc-cobertura-check@4.0.6
+  uses: amolenk/CodeQualityAction/cc-cobertura-check@4.0.7
   with:
     cobertura-file: ${{ env.WORKING_DIR }}/${{ env.COVERAGE_MERGE_DIR }}/Cobertura.xml
     threshold: '2.4'
@@ -33,7 +33,7 @@ Call the action from your GitHub Actions workflow:
   run: npm run cyclomatic-complexity --prefix ${{ env.CLIENT_DIR }}
   
 - name: Cyclomatic Complexity Check
-  uses: amolenk/CodeQualityAction/cc-eslint-check@4.0.6
+  uses: amolenk/CodeQualityAction/cc-eslint-check@4.0.7
   with:
     eslint-file: ${{ env.CLIENT_DIR }}/cyclomatic-complexity.json
     threshold: '2.4'
@@ -46,7 +46,7 @@ Scan .NET assemblies to calculate fan out.
 Call the action from your GitHub Actions workflow:
 ```yaml
 - name: Fan Out Check
-  uses: amolenk/CodeQualityAction/fo-dotnet-check@4.0.6
+  uses: amolenk/CodeQualityAction/fo-dotnet-check@4.0.7
   with:
     binary-folder: ${{ env.WORKING_DIR }}/artifacts
     assembly-prefix: <Assembly prefix, e.g. 'AcmeCorp.Product'>
