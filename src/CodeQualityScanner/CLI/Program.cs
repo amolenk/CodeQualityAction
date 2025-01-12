@@ -1,6 +1,5 @@
-﻿using Amolenk.CodeQualityScanner.CLI.Features.Cobertura;
-using Amolenk.CodeQualityScanner.CLI.Features.CyclomaticComplexity;
-using Amolenk.CodeQualityScanner.CLI.Features.ESLint;
+﻿using Amolenk.CodeQualityScanner.CLI.Features.CyclomaticComplexity;
+using Amolenk.CodeQualityScanner.CLI.Features.FanOut;
 
 if (args.Length == 0)
 {
@@ -20,7 +19,7 @@ switch (op)
         break;
     case "cc-cobertura":
     {
-        var input = CoberturaInput.FromFile(args[0]);
+        var input = CoberturaCyclomaticComplexityProvider.FromFile(args[0]);
         var threshold = double.Parse(args[1]);
 
         succes = CyclomaticComplexityRule.Run(input, threshold);
@@ -31,10 +30,21 @@ switch (op)
         break;
     case "cc-eslint":
     {
-        var input = ESLintInput.FromFile(args[0]);
+        var input = ESLintCyclomaticComplexityProvider.FromFile(args[0]);
         var threshold = double.Parse(args[1]);
 
         succes = CyclomaticComplexityRule.Run(input, threshold);
+        break;
+    }
+    case "fo-dotnet" when args.Length != 3:
+        Console.WriteLine("Usage: fo-dotnet <binary-folder> <assembly-filter> <threshold>");
+        break;
+    case "fo-dotnet":
+    {
+        var input = new MonoCecilFanOutProvider(args[0], args[1]);
+        var threshold = double.Parse(args[2]);
+
+        succes = FanOutRule.Run(input, threshold);
         break;
     }
     default:

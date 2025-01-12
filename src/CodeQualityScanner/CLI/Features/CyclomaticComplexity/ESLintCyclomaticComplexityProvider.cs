@@ -1,26 +1,25 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Amolenk.CodeQualityScanner.CLI.Features.CyclomaticComplexity;
 
-namespace Amolenk.CodeQualityScanner.CLI.Features.ESLint;
+namespace Amolenk.CodeQualityScanner.CLI.Features.CyclomaticComplexity;
 
-public class ESLintInput : ICyclomaticComplexityProvider
+public class ESLintCyclomaticComplexityProvider : ICyclomaticComplexityProvider
 {
     private readonly JsonDocument _document;
     
     private static readonly Regex ComplexityRegex = new(@"complexity of (\d+)\.", RegexOptions.Compiled);
     
-    private ESLintInput(JsonDocument document)
+    private ESLintCyclomaticComplexityProvider(JsonDocument document)
     {
         _document = document;
     }
     
-    public static ESLintInput FromFile(string path)
+    public static ESLintCyclomaticComplexityProvider FromFile(string path)
     {
         try
         {
             var jsonContent = File.ReadAllText(path);
-            return new ESLintInput(JsonDocument.Parse(jsonContent));
+            return new ESLintCyclomaticComplexityProvider(JsonDocument.Parse(jsonContent));
         }
         catch (Exception ex)
         {

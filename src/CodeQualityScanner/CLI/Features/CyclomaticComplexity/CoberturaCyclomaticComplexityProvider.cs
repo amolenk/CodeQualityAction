@@ -1,22 +1,21 @@
 using System.Xml.Linq;
-using Amolenk.CodeQualityScanner.CLI.Features.CyclomaticComplexity;
 
-namespace Amolenk.CodeQualityScanner.CLI.Features.Cobertura;
+namespace Amolenk.CodeQualityScanner.CLI.Features.CyclomaticComplexity;
 
-public class CoberturaInput : ICyclomaticComplexityProvider
+public class CoberturaCyclomaticComplexityProvider : ICyclomaticComplexityProvider
 {
     private readonly XDocument _document;
     
-    private CoberturaInput(XDocument document)
+    private CoberturaCyclomaticComplexityProvider(XDocument document)
     {
         _document = document;
     }
     
-    public static CoberturaInput FromFile(string path)
+    public static CoberturaCyclomaticComplexityProvider FromFile(string path)
     {
         try
         {
-            return new CoberturaInput(XDocument.Load(path));
+            return new CoberturaCyclomaticComplexityProvider(XDocument.Load(path));
         }
         catch (Exception ex)
         {

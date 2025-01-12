@@ -1,0 +1,19 @@
+name: Fan Out Check
+description: Check if the average fan out exceeds a threshold.
+inputs:
+  binary-folder:
+    description: Folder that contains the .NET assemblies to scan.
+    required: true
+  assembly-prefix:
+    description: Prefix of the .NET assemblies. Also used as namespace prefix.
+    required: true
+  threshold:
+    description: Maximum allowed average fan out.
+    required: true
+    default: '10'
+runs:
+  using: "composite"
+  steps:
+    - name: Run Quality Scanner
+      run: ${{ github.action_path }}/../publish/CLI fo-dotnet ${{ inputs.binary-folder }} ${{ inputs.assembly-prefix }} ${{ inputs.threshold }}
+      shell: bash
