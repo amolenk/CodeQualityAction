@@ -41,7 +41,14 @@ public class MonoCecilFanOutProvider : IFanOutProvider
         {
             var fanOut = CalculateFanOut(type);
 
-            result.Add(type.FullName, fanOut);
+            if (type.Name == "Program")
+            {
+                result.Add($"{type.Module.Name}::Program", fanOut);
+            }
+            else
+            {
+                result.Add(type.FullName, fanOut);
+            }
         }
     }
 
